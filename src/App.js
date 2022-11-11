@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, Routes, Route, useMatch } from 'react-router-dom';
-
+import { Alert } from 'react-bootstrap';
 import Home from './components/Home';
 import Login from './components/Login';
 import Note from './components/Note';
@@ -29,6 +29,7 @@ const App = () => {
     },
   ]);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
   const match = useMatch('/notes/:id');
 
   const note = match
@@ -37,6 +38,10 @@ const App = () => {
 
   const login = (user) => {
     setUser(user);
+    setMessage(`welcome ${user}`);
+    setTimeout(() => {
+      setMessage(null);
+    }, 10000);
   };
 
   const padding = {
@@ -45,6 +50,7 @@ const App = () => {
 
   return (
     <div className="container">
+      {message && <Alert variant="success">{message}</Alert>}
       <div>
         <Link style={padding} to="/">
           home

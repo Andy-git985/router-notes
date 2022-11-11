@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Navigate, Routes, Route, useMatch } from 'react-router-dom';
-
+import { Alert, Container } from '@mui/material';
 import Home from './components/Home';
 import Login from './components/Login';
 import Note from './components/Note';
@@ -29,6 +29,7 @@ const App = () => {
     },
   ]);
   const [user, setUser] = useState(null);
+  const [message, setMessage] = useState(null);
   const match = useMatch('/notes/:id');
 
   const note = match
@@ -37,6 +38,10 @@ const App = () => {
 
   const login = (user) => {
     setUser(user);
+    setMessage(`${user} logged in`);
+    setTimeout(() => {
+      setMessage(null);
+    }, 10000);
   };
 
   const padding = {
@@ -44,40 +49,43 @@ const App = () => {
   };
 
   return (
-    <div>
+    <Container>
       <div>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/notes">
-          notes
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user ? (
-          <em>{user} logged in</em>
-        ) : (
-          <Link style={padding} to="/login">
-            login
+        <div>{message && <Alert severity="success">{message}</Alert>}</div>
+        <div>
+          <Link style={padding} to="/">
+            home
           </Link>
-        )}
+          <Link style={padding} to="/notes">
+            notes
+          </Link>
+          <Link style={padding} to="/users">
+            users
+          </Link>
+          {user ? (
+            <em>{user} logged in</em>
+          ) : (
+            <Link style={padding} to="/login">
+              login
+            </Link>
+          )}
+        </div>
+        <Routes>
+          <Route path="/notes/:id" element={<Note note={note} />} />
+          <Route path="/notes" element={<Notes notes={notes} />} />
+          <Route
+            path="/users"
+            element={user ? <Users /> : <Navigate replace to="/login" />}
+          />
+          <Route path="/login" element={<Login onLogin={login} />} />
+          <Route path="/" element={<Home />} />
+        </Routes>
+        <div>
+          <br />
+          <em>Note app, Department of Computer Science 2022</em>
+        </div>
       </div>
-      <Routes>
-        <Route path="/notes/:id" element={<Note note={note} />} />
-        <Route path="/notes" element={<Notes notes={notes} />} />
-        <Route
-          path="/users"
-          element={user ? <Users /> : <Navigate replace to="/login" />}
-        />
-        <Route path="/login" element={<Login onLogin={login} />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-      <div>
-        <br />
-        <em>Note app, Department of Computer Science 2022</em>
-      </div>
-    </div>
+    </Container>
   );
 };
 

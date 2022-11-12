@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppBar, Button, IconButton, Toolbar } from '@mui/material';
+import { AppBar, Button, Toolbar } from '@mui/material';
 
 const Navigation = ({ user }) => (
   <AppBar position="static">

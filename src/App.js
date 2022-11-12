@@ -6,6 +6,9 @@ import Login from './components/Login';
 import Note from './components/Note';
 import Notes from './components/Notes';
 import Users from './components/Users';
+import Page from './components/Page';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 
 const App = () => {
   const [notes, setNotes] = useState([
@@ -44,8 +47,8 @@ const App = () => {
   };
 
   return (
-    <div>
-      <div>
+    <Page>
+      <Navigation>
         <Link style={padding} to="/">
           home
         </Link>
@@ -62,7 +65,7 @@ const App = () => {
             login
           </Link>
         )}
-      </div>
+      </Navigation>
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
         <Route path="/notes" element={<Notes notes={notes} />} />
@@ -73,11 +76,11 @@ const App = () => {
         <Route path="/login" element={<Login onLogin={login} />} />
         <Route path="/" element={<Home />} />
       </Routes>
-      <div>
+      <Footer>
         <br />
         <em>Note app, Department of Computer Science 2022</em>
-      </div>
-    </div>
+      </Footer>
+    </Page>
   );
 };
 
